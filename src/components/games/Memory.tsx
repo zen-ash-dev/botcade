@@ -41,10 +41,10 @@ export default function MemoryMatch() {
   };
 
   return (
-    <div className="flex flex-col items-center p-6 glass-panel rounded-2xl w-full max-w-md mx-auto">
-      <div className="w-full flex justify-between items-center mb-6 font-display">
-        <h2 className="text-lg text-white tracking-wider">M E M O R Y</h2>
-        <span className="text-gray-500 text-xs font-body">MOVES: <span className="text-white text-sm">{moves}</span></span>
+    <div className="flex flex-col items-center p-6 bg-white rounded-2xl border border-neutral-200 shadow-sm w-full max-w-md mx-auto">
+      <div className="w-full flex justify-between items-center mb-6">
+        <h2 className="font-display text-lg text-neutral-900 tracking-tight">Memory</h2>
+        <span className="text-neutral-400 text-xs font-medium">Moves: <span className="text-neutral-700 text-sm">{moves}</span></span>
       </div>
 
       <div className="grid grid-cols-4 gap-3">
@@ -59,10 +59,10 @@ export default function MemoryMatch() {
               transition={{ duration: 0.3 }}
               style={{ transformStyle: 'preserve-3d' }}
             >
-              <div className={`absolute inset-0 rounded-xl glass-card border border-white/5 flex items-center justify-center ${isFlipped ? 'hidden' : ''}`}>
-                <span className="text-neon-purple opacity-40 text-2xl font-display">?</span>
+              <div className={`absolute inset-0 rounded-xl bg-neutral-50 border border-neutral-100 flex items-center justify-center ${isFlipped ? 'hidden' : ''}`}>
+                <span className="text-neutral-300 text-2xl font-display">?</span>
               </div>
-              <div className={`absolute inset-0 rounded-xl bg-dark-700/80 border border-white/10 flex items-center justify-center text-3xl ${!isFlipped ? 'hidden' : ''}`} style={{ transform: 'rotateY(180deg)' }}>
+              <div className={`absolute inset-0 rounded-xl bg-white border border-neutral-200 flex items-center justify-center text-3xl shadow-sm ${!isFlipped ? 'hidden' : ''}`} style={{ transform: 'rotateY(180deg)' }}>
                 {card}
               </div>
             </motion.div>
@@ -76,9 +76,9 @@ export default function MemoryMatch() {
             animate={{ y: 0, opacity: 1 }}
             className="mt-8 flex flex-col items-center gap-4"
         >
-          <p className="font-display text-xl text-white tracking-wider">A L L   M A T C H E D</p>
-          <button onClick={resetGame} className="px-6 py-2.5 rounded-full bg-gradient-to-r from-neon-purple to-neon-rose text-white text-xs font-display tracking-wider hover:shadow-neon-purple transition-shadow duration-300">
-            PLAY AGAIN
+          <p className="font-display text-xl text-neutral-900 tracking-tight">All Matched</p>
+          <button onClick={resetGame} className="px-6 py-2.5 rounded-full bg-neutral-900 text-white text-xs font-medium tracking-tight hover:bg-neutral-800 transition-colors">
+            Play Again
           </button>
         </motion.div>
       )}

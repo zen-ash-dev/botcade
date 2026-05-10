@@ -56,17 +56,17 @@ export default function XOGame() {
   };
 
   return (
-    <div className="flex flex-col items-center p-6 glass-panel rounded-2xl max-w-md w-full mx-auto">
+    <div className="flex flex-col items-center p-6 bg-white rounded-2xl border border-neutral-200 shadow-sm max-w-md w-full mx-auto">
       <div className="w-full flex justify-between items-center mb-6">
-        <h2 className="font-display text-lg text-white tracking-wider">X O <span className="text-neon-rose text-sm font-body">({difficulty})</span></h2>
+        <h2 className="font-display text-lg text-neutral-900 tracking-tight">XO <span className="text-neutral-400 text-sm font-medium">({difficulty})</span></h2>
         <select
-            className="bg-dark-800 text-gray-300 border border-white/10 rounded-lg px-3 py-1.5 text-xs font-body outline-none focus:border-neon-purple transition-colors cursor-pointer"
+            className="bg-neutral-50 text-neutral-700 border border-neutral-200 rounded-lg px-3 py-1.5 text-xs font-medium outline-none focus:border-neutral-400 transition-colors cursor-pointer"
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value as Difficulty)}
             disabled={board.some(sq => sq !== null) && !winner}
         >
-          <option value="Easy">EASY</option>
-          <option value="Hard">HARD</option>
+          <option value="Easy">Easy</option>
+          <option value="Hard">Hard</option>
         </select>
       </div>
 
@@ -76,13 +76,13 @@ export default function XOGame() {
             key={i}
             onClick={() => isXNext ? handlePlay(i, 'X') : null}
             disabled={!isXNext || !!square || !!winner}
-            className="glass-card rounded-xl flex items-center justify-center text-4xl font-display border border-white/5 hover:border-neon-purple/30 transition-all duration-200"
+            className="bg-neutral-50 rounded-xl flex items-center justify-center text-4xl font-display border border-neutral-100 hover:border-neutral-300 transition-all duration-200"
           >
             {square && (
               <motion.span
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className={square === 'X' ? 'text-neon-green' : 'text-neon-pink'}
+                className={square === 'X' ? 'text-emerald-600' : 'text-neutral-400'}
               >
                 {square}
               </motion.span>
@@ -97,14 +97,14 @@ export default function XOGame() {
             animate={{ y: 0, opacity: 1 }}
             className="flex flex-col items-center gap-4"
         >
-          <p className="font-display text-xl text-white tracking-wider">
-            {winner === 'Draw' ? "D R A W" : `${winner}   W I N S`}
+          <p className="font-display text-xl text-neutral-900 tracking-tight">
+            {winner === 'Draw' ? "Draw" : `${winner} Wins`}
           </p>
           <button
             onClick={resetGame}
-            className="px-6 py-2.5 rounded-full bg-gradient-to-r from-neon-purple to-neon-rose text-white text-xs font-display tracking-wider hover:shadow-neon-purple transition-shadow duration-300"
+            className="px-6 py-2.5 rounded-full bg-neutral-900 text-white text-xs font-medium tracking-tight hover:bg-neutral-800 transition-colors"
           >
-            PLAY AGAIN
+            Play Again
           </button>
         </motion.div>
       )}

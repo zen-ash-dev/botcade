@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface PlayerStats {
   level: number;
@@ -18,7 +18,7 @@ export function useProgression() {
     }
   }, []);
 
-  const addWin = (xpGained: number = 50) => {
+  const addWin = useCallback((xpGained: number = 50) => {
     setStats(prev => {
       const newXp = prev.xp + xpGained;
       const newLevel = Math.floor(newXp / 100) + 1;
@@ -31,7 +31,7 @@ export function useProgression() {
       localStorage.setItem('botcade_stats', JSON.stringify(newStats));
       return newStats;
     });
-  };
+  }, []);
 
   return { stats, addWin };
 }

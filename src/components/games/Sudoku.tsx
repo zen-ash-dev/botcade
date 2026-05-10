@@ -61,26 +61,26 @@ export default function Sudoku() {
   };
 
   return (
-    <div className="flex flex-col items-center p-6 glass-panel rounded-2xl w-full max-w-lg mx-auto">
+    <div className="flex flex-col items-center p-6 bg-white rounded-2xl border border-neutral-200 shadow-sm w-full max-w-lg mx-auto">
       <div className="w-full flex justify-between items-center mb-6">
-        <h2 className="font-display text-lg text-white tracking-wider">S U D O K U</h2>
+        <h2 className="font-display text-lg text-neutral-900 tracking-tight">Sudoku</h2>
         <select
-            className="bg-dark-800 text-gray-300 border border-white/10 rounded-lg px-3 py-1.5 text-xs font-body outline-none focus:border-neon-purple transition-colors cursor-pointer"
+            className="bg-neutral-50 text-neutral-700 border border-neutral-200 rounded-lg px-3 py-1.5 text-xs font-medium outline-none focus:border-neutral-400 transition-colors cursor-pointer"
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value as Difficulty)}
         >
-          <option value="Easy">EASY</option>
-          <option value="Medium">MEDIUM</option>
-          <option value="Hard">HARD</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
         </select>
       </div>
 
-      <div className="grid grid-cols-9 gap-0 bg-dark-800/50 p-1 rounded-lg border border-white/10">
+      <div className="grid grid-cols-9 gap-0 bg-neutral-50 p-1 rounded-lg border border-neutral-200">
         {board.map((row, r) =>
           row.map((cell, c) => {
             const isInitial = initialBoard[r][c] !== 0;
-            const borderRight = c % 3 === 2 && c !== 8 ? 'border-r-2 border-neon-purple/30' : 'border-r border-white/5';
-            const borderBottom = r % 3 === 2 && r !== 8 ? 'border-b-2 border-neon-purple/30' : 'border-b border-white/5';
+            const borderRight = c % 3 === 2 && c !== 8 ? 'border-r-2 border-neutral-300' : 'border-r border-neutral-100';
+            const borderBottom = r % 3 === 2 && r !== 8 ? 'border-b-2 border-neutral-300' : 'border-b border-neutral-100';
 
             return (
               <input
@@ -91,7 +91,7 @@ export default function Sudoku() {
                 onChange={(e) => handleInput(r, c, e.target.value)}
                 readOnly={isInitial}
                 className={`w-8 h-8 sm:w-10 sm:h-10 text-center font-body text-lg sm:text-xl outline-none transition-colors
-                  ${isInitial ? 'bg-dark-800 text-gray-300 font-bold' : 'bg-dark-900/60 text-neon-blue hover:bg-dark-700/80 focus:bg-dark-700/80'}
+                  ${isInitial ? 'bg-white text-neutral-900 font-bold' : 'bg-neutral-50 text-blue-600 hover:bg-neutral-100 focus:bg-neutral-100'}
                   ${borderRight} ${borderBottom}
                 `}
               />
@@ -102,9 +102,9 @@ export default function Sudoku() {
 
       {isSolved && (
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="mt-6 flex flex-col items-center">
-          <p className="font-display text-xl text-neon-green tracking-wider mb-4">G R I D   S O L V E D</p>
-          <button onClick={() => startNewGame(difficulty)} className="px-6 py-2.5 rounded-full bg-gradient-to-r from-neon-purple to-neon-rose text-white text-xs font-display tracking-wider hover:shadow-neon-purple transition-shadow duration-300">
-            PLAY AGAIN
+          <p className="font-display text-xl text-emerald-600 tracking-tight mb-4">Grid Solved</p>
+          <button onClick={() => startNewGame(difficulty)} className="px-6 py-2.5 rounded-full bg-neutral-900 text-white text-xs font-medium tracking-tight hover:bg-neutral-800 transition-colors">
+            Play Again
           </button>
         </motion.div>
       )}

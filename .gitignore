@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# junk / artifacts
+nul
+3d/
+3d.whtt
+docs/
+*.gif
+index.html
+wonder-ref.png
