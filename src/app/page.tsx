@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useProgression } from '@/hooks/useProgression';
+import { useProgression, levelProgress, xpToNextLevel } from '@/hooks/useProgression';
 
 const games = [
   { id: 'xo', name: 'XO', desc: 'Classic Tic Tac Toe with Minimax AI', icon: '✕', cover: 'bg-gradient-to-br from-neutral-900 to-black' },
@@ -259,40 +259,37 @@ export default function Home() {
 
 function PlayerStatsCards() {
   const { stats } = useProgression();
-  const xpForCurrent = (stats.level - 1) * 100;
-  const xpForNext = stats.level * 100;
-  const progress = stats.xp - xpForCurrent;
-  const needed = xpForNext - xpForCurrent;
-  const pct = Math.min(Math.round((progress / needed) * 100), 100);
+  const pct = levelProgress(stats.xp);
+  const remaining = xpToNextLevel(stats.xp);
 
   return (
-    <div className="space-y-12">
-      <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto">
-        <div className="text-center">
-          <svg className="w-5 h-5 mx-auto mb-3 text-white/40" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/></svg>
-          <div className="text-[64px] leading-[64px] font-display font-normal text-white">{stats.level}</div>
-          <div className="text-[14px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Level</div>
+    <div className="space-y-10">
+      <div className="flex items-start justify-center gap-8 sm:gap-16">
+        <div className="text-center min-w-0 flex-1 max-w-[160px]">
+          <svg className="w-5 h-5 mx-auto mb-2 text-white/40" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/></svg>
+          <div className="text-[56px] sm:text-[64px] leading-[1] font-display font-normal text-white truncate">{stats.level}</div>
+          <div className="text-[13px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Level</div>
         </div>
-        <div className="text-center">
-          <svg className="w-5 h-5 mx-auto mb-3 text-white/40" viewBox="0 0 24 24" fill="none"><path d="M13 10V3L4 14h7v7l9-11h-7z" fill="currentColor"/></svg>
-          <div className="text-[64px] leading-[64px] font-display font-normal text-white">{stats.xp}</div>
-          <div className="text-[14px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">XP</div>
+        <div className="text-center min-w-0 flex-1 max-w-[160px]">
+          <svg className="w-5 h-5 mx-auto mb-2 text-white/40" viewBox="0 0 24 24" fill="none"><path d="M13 10V3L4 14h7v7l9-11h-7z" fill="currentColor"/></svg>
+          <div className="text-[40px] sm:text-[48px] leading-[1] font-display font-normal text-white truncate tabular-nums">{stats.xp.toLocaleString()}</div>
+          <div className="text-[13px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Total XP</div>
         </div>
-        <div className="text-center">
-          <svg className="w-5 h-5 mx-auto mb-3 text-white/40" viewBox="0 0 24 24" fill="none"><path d="M12 15l-5 3 1-6-4-4 6-1 2-5 2 5 6 1-4 4 1 6-5-3z" fill="currentColor"/></svg>
-          <div className="text-[64px] leading-[64px] font-display font-normal text-white">{stats.wins}</div>
-          <div className="text-[14px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Wins</div>
+        <div className="text-center min-w-0 flex-1 max-w-[160px]">
+          <svg className="w-5 h-5 mx-auto mb-2 text-white/40" viewBox="0 0 24 24" fill="none"><path d="M12 15l-5 3 1-6-4-4 6-1 2-5 2 5 6 1-4 4 1 6-5-3z" fill="currentColor"/></svg>
+          <div className="text-[56px] sm:text-[64px] leading-[1] font-display font-normal text-white truncate">{stats.wins}</div>
+          <div className="text-[13px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Wins</div>
         </div>
       </div>
-      <div className="max-w-xs mx-auto">
-        <div className="flex justify-between text-xs text-white/40 font-body mb-2">
+      <div className="max-w-[280px] mx-auto">
+        <div className="flex justify-between text-xs text-white/40 font-body mb-1.5">
           <span>Level {stats.level}</span>
           <span>Level {stats.level + 1}</span>
         </div>
         <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-          <div className="h-full bg-white/60 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+          <div className="h-full bg-white/60 rounded-full transition-all duration-700" style={{ width: `${pct}%` }} />
         </div>
-        <p className="text-center text-xs text-white/30 font-body mt-2">{progress} / {needed} XP</p>
+        <p className="text-center text-xs text-white/30 font-body mt-1.5">{remaining.toLocaleString()} XP to next level</p>
       </div>
       {stats.wins === 0 && (
         <p className="text-center text-sm text-white/40 font-body">Play a game to start earning XP and climb the ranks.</p>
