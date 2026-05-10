@@ -9,6 +9,7 @@ const orbitron = Orbitron({ subsets: ["latin"], variable: "--font-orbitron" });
 export const metadata: Metadata = {
   title: "BOTCADE | AI Arcade",
   description: "Single-player AI arcade platform with strategy and casual games.",
+  icons: { icon: "/favicon.svg" },
 };
 
 export default function RootLayout({
