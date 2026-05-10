@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 interface PlayerStats {
   level: number;
@@ -8,15 +8,17 @@ interface PlayerStats {
   wins: number;
 }
 
-export function useProgression() {
-  const [stats, setStats] = useState<PlayerStats>({ level: 1, xp: 0, wins: 0 });
-
-  useEffect(() => {
+function loadStats(): PlayerStats {
+  if (typeof window === 'undefined') return { level: 1, xp: 0, wins: 0 };
+  try {
     const saved = localStorage.getItem('botcade_stats');
-    if (saved) {
-      setStats(JSON.parse(saved));
-    }
-  }, []);
+    if (saved) return JSON.parse(saved);
+  } catch {}
+  return { level: 1, xp: 0, wins: 0 };
+}
+
+export function useProgression() {
+  const [stats, setStats] = useState<PlayerStats>(loadStats);
 
   const addWin = useCallback((xpGained: number = 50) => {
     setStats(prev => {

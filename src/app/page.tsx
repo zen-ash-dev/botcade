@@ -196,25 +196,7 @@ export default function Home() {
           </div>
 
           <h2 className="text-[42px] leading-[42px] font-display font-normal text-white mb-12">Player Stats</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl">
-            <div className="text-center">
-              <div className="text-[64px] leading-[64px] font-display font-normal text-white">5</div>
-              <div className="text-[14px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Games</div>
-            </div>
-            <div className="text-center">
-              <div className="text-[64px] leading-[64px] font-display font-normal text-white">AI</div>
-              <div className="text-[14px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Opponents</div>
-            </div>
-            <div className="text-center">
-              <div className="text-[64px] leading-[64px] font-display font-normal text-white">0</div>
-              <div className="text-[14px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Accounts</div>
-            </div>
-            <div className="text-center">
-              <div className="text-[64px] leading-[64px] font-display font-normal text-white">∞</div>
-              <div className="text-[14px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Play Time</div>
-            </div>
-          </div>
-          <StatsRow />
+          <PlayerStatsCards />
         </div>
       </section>
 
@@ -275,21 +257,21 @@ export default function Home() {
   );
 }
 
-function StatsRow() {
+function PlayerStatsCards() {
   const { stats } = useProgression();
   return (
-    <div className="grid grid-cols-3 gap-8 max-w-md mx-auto mt-12 pt-12 border-t border-white/10">
+    <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto">
       <div className="text-center">
-        <div className="text-[42px] leading-[42px] font-display font-normal text-white/80">{stats.level}</div>
-        <div className="text-[12px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Level</div>
+        <div className="text-[64px] leading-[64px] font-display font-normal text-white">{stats.level}</div>
+        <div className="text-[14px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Level</div>
       </div>
       <div className="text-center">
-        <div className="text-[42px] leading-[42px] font-display font-normal text-white/80">{stats.xp}</div>
-        <div className="text-[12px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Total XP</div>
+        <div className="text-[64px] leading-[64px] font-display font-normal text-white">{stats.xp}</div>
+        <div className="text-[14px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">XP</div>
       </div>
       <div className="text-center">
-        <div className="text-[42px] leading-[42px] font-display font-normal text-white/80">{stats.wins}</div>
-        <div className="text-[12px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Wins</div>
+        <div className="text-[64px] leading-[64px] font-display font-normal text-white">{stats.wins}</div>
+        <div className="text-[14px] text-[#d1d1d1] font-body mt-2 uppercase tracking-wider">Wins</div>
       </div>
     </div>
   );

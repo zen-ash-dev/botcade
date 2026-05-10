@@ -1,7 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { useProgression } from '@/hooks/useProgression';
+import { useChallenges } from '@/hooks/useChallenges';
 
 const ICONS = ['🤖', '👽', '👾', '🚀', '⚡️', '🔥', '💻', '🔋'];
 
@@ -10,10 +12,22 @@ export default function MemoryMatch() {
   const [flipped, setFlipped] = useState<number[]>([]);
   const [solved, setSolved] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
+  const xpAwarded = useRef(false);
+  const { addWin } = useProgression();
+  const { advanceChallenge } = useChallenges();
 
   useEffect(() => {
     resetGame();
   }, []);
+
+  useEffect(() => {
+    if (solved.length === cards.length && cards.length > 0 && !xpAwarded.current) {
+      xpAwarded.current = true;
+      const bonus = Math.max(0, 20 - moves) * 5;
+      addWin(60 + bonus);
+      advanceChallenge('memory-moves');
+    }
+  }, [solved, cards, moves, addWin, advanceChallenge]);
 
   const resetGame = () => {
     const shuffled = [...ICONS, ...ICONS].sort(() => Math.random() - 0.5);

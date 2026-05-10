@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ROWS, COLS, Player, checkConnect4Win, getConnect4BestMove } from '@/lib/ai/connect4';
 import { useProgression } from '@/hooks/useProgression';
+import { useChallenges } from '@/hooks/useChallenges';
 
 export default function Connect4() {
   const [board, setBoard] = useState<Player[][]>(Array(ROWS).fill(null).map(() => Array(COLS).fill(null)));
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [winner, setWinner] = useState<Player | 'Draw'>(null);
   const { addWin } = useProgression();
+  const { advanceChallenge } = useChallenges();
 
   const dropToken = (col: number, player: Player) => {
     if (winner || board[0][col] !== null) return;
@@ -30,7 +32,10 @@ export default function Connect4() {
     const gameResult = checkConnect4Win(newBoard);
     if (gameResult) {
       setWinner(gameResult);
-      if (gameResult === 'Red') addWin(100);
+      if (gameResult === 'Red') {
+        addWin(100);
+        advanceChallenge('connect4-win');
+      }
     } else {
       setIsPlayerTurn(player === 'Yellow');
 
@@ -53,6 +58,11 @@ export default function Connect4() {
     <div className="flex flex-col items-center p-6 bg-white rounded-2xl border border-neutral-200 shadow-sm max-w-2xl w-full mx-auto">
       <h2 className="font-display text-lg text-neutral-900 tracking-tight mb-6">Connect 4</h2>
 
+      {!winner && (
+        <div className="mb-4 text-xs font-medium tracking-tight text-neutral-500">
+          {isPlayerTurn ? 'Your Turn (Red)' : 'AI Thinking...'}
+        </div>
+      )}
       <div className="bg-neutral-50 p-4 rounded-xl flex gap-2 border border-neutral-100">
         {Array.from({ length: COLS }).map((_, col) => (
           <div key={col} className="flex flex-col gap-2 cursor-pointer" onClick={() => isPlayerTurn && dropToken(col, 'Red')}>

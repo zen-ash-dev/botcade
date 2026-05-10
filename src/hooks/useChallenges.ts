@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export interface Challenge {
   id: string;
@@ -49,7 +49,7 @@ export function useChallenges() {
     setChallenges(loadChallenges());
   }, []);
 
-  const advanceChallenge = (id: string, amount: number = 1) => {
+  const advanceChallenge = useCallback((id: string, amount: number = 1) => {
     setChallenges(prev => {
       const updated = prev.map(c => {
         if (c.id !== id) return c;
@@ -60,7 +60,7 @@ export function useChallenges() {
       localStorage.setItem('botcade_challenges', JSON.stringify({ date: today, challenges: updated }));
       return updated;
     });
-  };
+  }, []);
 
   return { challenges, advanceChallenge };
 }

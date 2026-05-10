@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { generateSudokuBoard, solveSudoku, isValid } from '@/lib/ai/sudoku';
 import { useProgression } from '@/hooks/useProgression';
+import { useChallenges } from '@/hooks/useChallenges';
 
 type Difficulty = 'Easy' | 'Medium' | 'Hard';
 
@@ -13,6 +14,7 @@ export default function Sudoku() {
   const [difficulty, setDifficulty] = useState<Difficulty>('Easy');
   const [isSolved, setIsSolved] = useState(false);
   const { addWin } = useProgression();
+  const { advanceChallenge } = useChallenges();
 
   useEffect(() => {
     startNewGame(difficulty);
@@ -44,19 +46,21 @@ export default function Sudoku() {
       }
     }
 
+    const copy = currentBoard.map(row => [...row]);
     let valid = true;
     for (let r = 0; r < 9; r++) {
       for (let c = 0; c < 9; c++) {
-        const val = currentBoard[r][c];
-        currentBoard[r][c] = 0;
-        if (!isValid(currentBoard, r, c, val)) valid = false;
-        currentBoard[r][c] = val;
+        const val = copy[r][c];
+        copy[r][c] = 0;
+        if (!isValid(copy, r, c, val)) valid = false;
+        copy[r][c] = val;
       }
     }
 
     if (valid) {
       setIsSolved(true);
       addWin(difficulty === 'Hard' ? 200 : difficulty === 'Medium' ? 150 : 100);
+      if (difficulty === 'Easy') advanceChallenge('sudoku-easy');
     }
   };
 

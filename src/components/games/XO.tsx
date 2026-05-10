@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { calculateWinner, getBestMove, getRandomMove } from '@/lib/ai/xo';
 import { useProgression } from '@/hooks/useProgression';
+import { useChallenges } from '@/hooks/useChallenges';
 
 type Player = 'X' | 'O' | null;
 type Difficulty = 'Easy' | 'Hard';
@@ -14,6 +15,14 @@ export default function XOGame() {
   const [difficulty, setDifficulty] = useState<Difficulty>('Hard');
   const [winner, setWinner] = useState<Player | 'Draw'>(null);
   const { addWin } = useProgression();
+  const { advanceChallenge } = useChallenges();
+
+  useEffect(() => {
+    if (winner === 'X') {
+      advanceChallenge('win-xo');
+      if (difficulty === 'Hard') advanceChallenge('beat-hard');
+    }
+  }, [winner, difficulty, advanceChallenge]);
 
   useEffect(() => {
     if (!isXNext && !winner) {
@@ -31,8 +40,12 @@ export default function XOGame() {
   }, [isXNext, board, winner, difficulty]);
 
   useEffect(() => {
-    if (winner === 'X') addWin(50);
-  }, [winner, addWin]);
+    if (winner === 'X') {
+      addWin(50);
+      advanceChallenge('win-xo');
+      if (difficulty === 'Hard') advanceChallenge('beat-hard');
+    }
+  }, [winner, addWin, advanceChallenge, difficulty]);
 
   const handlePlay = (index: number, player: Player) => {
     if (board[index] || winner) return;
@@ -70,6 +83,11 @@ export default function XOGame() {
         </select>
       </div>
 
+      {!winner && (
+        <div className="mb-4 text-xs font-medium tracking-tight text-neutral-500">
+          {isXNext ? 'Your Turn (X)' : 'AI Thinking...'}
+        </div>
+      )}
       <div className="grid grid-cols-3 gap-2 mb-6 w-full aspect-square">
         {board.map((square, i) => (
           <button
